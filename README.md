@@ -1,7 +1,9 @@
-![screenshot](test.jpg)
+
 
 # PENNY
 A single header library to create .ppm files
+
+![screenshot](test.jpg)
 
 # Functions
 - int penny_init(int w, int h);
