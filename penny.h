@@ -183,7 +183,7 @@ void penny_circle(int x, int y, int r)
     int offsety = r;
 	int d = r-1;
 	
-	while (offsety >= offsetx) 
+    while (offsety >= offsetx) 
     {
         penny_point( x + offsetx, y + offsety);
         penny_point( x + offsety, y + offsetx);
@@ -210,7 +210,7 @@ void penny_circle(int x, int y, int r)
             offsety -= 1;
             offsetx += 1;
         }
-	}
+    }
 }
 
 /**********/
@@ -220,7 +220,7 @@ void penny_fillcircle(int x, int y, int r)
     int offsety = r;
 	int d = r-1;
 	
-	while (offsety >= offsetx) 
+    while (offsety >= offsetx) 
     {	
         penny_line( x - offsety, y + offsetx, x + offsety, y + offsetx);
         penny_line( x - offsetx, y + offsety, x + offsetx, y + offsety);
@@ -243,7 +243,7 @@ void penny_fillcircle(int x, int y, int r)
             offsety -= 1;
             offsetx += 1;
         }
-	}
+    }
 }
 
 
