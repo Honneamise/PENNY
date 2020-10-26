@@ -59,13 +59,7 @@ static char    *_error = NULL;
 #define _max(a,b) (((a)>(b))?(a):(b))
 
 //functions
-char *penny_error();
-
 int penny_init(int w, int h);
-
-int penny_save(char *file);
-
-void penny_close();
 
 void penny_color(color c);
 
@@ -81,14 +75,14 @@ void penny_circle(int x, int y, int r);
 
 void penny_fillcircle(int x, int y, int r);
 
+int penny_save(char *file);
+
+void penny_close();
+
+char *penny_error();
+
 //implementation
 #ifdef PENNY
-
-/**********/
-char *penny_error()
-{
-    return _error;
-}
 
 /**********/
 int penny_init(int w, int h)
@@ -110,53 +104,6 @@ int penny_init(int w, int h)
     }
     
     return 0;    
-}
-
-/**********/
-int penny_save(char *file)
-{
-    if(file==NULL){ _error=_ERR_FILE_NAME; return -1; };
-
-    FILE *fp = fopen(file,"wb");
-
-    if(fp)
-    {
-        //header
-        fprintf(fp, "P6\n%s\n%d\n%d\n255\n", _SIGNATURE, _ppm.w, _ppm.h);
-        if(ferror(fp))
-        {
-            _error=_ERR_FILE_HEADER; 
-            fclose(fp);
-            return -1;
-        }
-
-        //data
-        fwrite(_ppm.data, sizeof(color), _ppm.w*_ppm.h, fp);
-        if(ferror(fp))
-        {
-            _error=_ERR_FILE_DATA; 
-            fclose(fp);
-            return -1;
-        }
-
-        fclose(fp);
-        return 0;
-    }
-    else
-    {
-        _error=_ERR_FILE_OPEN; 
-        return -1;
-    }
-
-}
-
-/**********/
-void penny_close()
-{
-    _ppm.w = 0;
-    _ppm.h = 0;
-    if(_ppm.data!=NULL){ free(_ppm.data); }; 
-    _ppm.data = NULL;
 }
 
 /**********/
@@ -297,6 +244,60 @@ void penny_fillcircle(int x, int y, int r)
             offsetx += 1;
         }
 	}
+}
+
+
+/**********/
+int penny_save(char *file)
+{
+    if(file==NULL){ _error=_ERR_FILE_NAME; return -1; };
+
+    FILE *fp = fopen(file,"wb");
+
+    if(fp)
+    {
+        //header
+        fprintf(fp, "P6\n%s\n%d\n%d\n255\n", _SIGNATURE, _ppm.w, _ppm.h);
+        if(ferror(fp))
+        {
+            _error=_ERR_FILE_HEADER; 
+            fclose(fp);
+            return -1;
+        }
+
+        //data
+        fwrite(_ppm.data, sizeof(color), _ppm.w*_ppm.h, fp);
+        if(ferror(fp))
+        {
+            _error=_ERR_FILE_DATA; 
+            fclose(fp);
+            return -1;
+        }
+
+        fclose(fp);
+        return 0;
+    }
+    else
+    {
+        _error=_ERR_FILE_OPEN; 
+        return -1;
+    }
+
+}
+
+/**********/
+void penny_close()
+{
+    _ppm.w = 0;
+    _ppm.h = 0;
+    if(_ppm.data!=NULL){ free(_ppm.data); }; 
+    _ppm.data = NULL;
+}
+
+/**********/
+char *penny_error()
+{
+    return _error;
 }
 
 #endif
