@@ -124,37 +124,37 @@ void penny_point(int x, int y)
 }
 
 /**********/
-void penny_line(int srcx, int srcy, int dstx, int dsty)
+void penny_line(int x0, int y0, int x1, int y1)
 {
-    if(srcx==dstx)//v-line
+    if(x0==x1)//v-line
     {
-        int start = _min(srcy,dsty);
-        int len = _max(srcy,dsty)-start;
-        for(int i=0;i<=len;i++){ penny_point(srcx, start+i);};
+        int start = _min(y0,y1);
+        int len = _max(y0,y1)-start;
+        for(int i=0;i<=len;i++){ penny_point(x0, start+i);};
         return;
     }
 
-    if(srcy==dsty)//h-line
+    if(y0==y1)//h-line
     {
-        int start = _min(srcx,dstx);
-        int len = _max(srcx,dstx)-start;
-        for(int i=0;i<=len;i++){ penny_point(start+i, srcy);};
+        int start = _min(x0,x1);
+        int len = _max(x0,x1)-start;
+        for(int i=0;i<=len;i++){ penny_point(start+i, y0);};
         return;
     }
 
-    int dx = abs(dstx-srcx);
-    int sx = srcx<dstx ? 1 : -1;
-    int dy = abs(dsty-srcy);
-    int sy = srcy<dsty ? 1 : -1; 
+    int dx = abs(x1-x0);
+    int sx = x0<x1 ? 1 : -1;
+    int dy = abs(y1-y0);
+    int sy = y0<y1 ? 1 : -1; 
     int err = (dx>dy ? dx : -dy)/2, e2;
  
     for(;;)
     {
-        penny_point(srcx, srcy);
-        if (srcx==dstx && srcy==dsty) break;
+        penny_point(x0, y0);
+        if (x0==x1 && y0==y1) break;
         e2 = err;
-        if (e2 >-dx) { err -= dy; srcx += sx; }
-        if (e2 < dy) { err += dx; srcy += sy; }
+        if (e2 >-dx) { err -= dy; x0 += sx; }
+        if (e2 < dy) { err += dx; y0 += sy; }
     }
 }
 
